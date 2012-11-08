@@ -15,6 +15,8 @@ Treebook::Application.routes.draw do
   # To the left of the pound is the controller(statuses) and the action(index)
   root :to => "statuses#index"
 
+  get '/:id', to:'profiles#show'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
