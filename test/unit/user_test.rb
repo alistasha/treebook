@@ -1,19 +1,20 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-
+	# Since a user can have more than 1 friend, we're going to use a has_many association. 
 	should have_many(:user_friendships)
 	should have_many(:friends)
 
+	# a user actually didn't enter their first name ?
 	test "a user should enter a first name" do
-		user = User.new
-		assert !user.save
-		assert !user.errors[:first_name].empty?
+		user = User.new		# we're creating a new user variable by saying user is a new instance of the User class.
+		assert !user.save	# what that should do is tell us that the user should not be saved in our database.
+		assert !user.errors[:first_name].empty?	# the errors on the first name field are not empty.
 	end
 
 	test "a user should enter a last name" do
 		user = User.new
-		assert !user.save
+		assert !user.saved
 		assert !user.errors[:last_name].empty?
 	end
 
@@ -31,6 +32,7 @@ class UserTest < ActiveSupport::TestCase
 		assert !user.errors[:profile_name].empty?
 	end
 
+	# For user's profile name correctness
 	test "a user should have a profile name without spaces" do
 		user = User.new(first_name: 'Jason', last_name: 'Seifer', email: 'jason2@teamtreehouse.com')
 		user.password = user.password_confirmation = 'asdfasdf'
@@ -39,7 +41,8 @@ class UserTest < ActiveSupport::TestCase
 
 		assert !user.save
 		assert !user.errors[:profile_name].empty?
-		assert user.errors[:profile_name].include?("Must be formatted correctly.")
+		assert user.errors[:profile_name].include?("Must be formatted correctly.")	# to make sure we're getting the correct error message.
+		# We'll do this by checking the errors array with the profile name key.
 	end
 
 	test "a user can have correctly formatted profile name" do
@@ -60,5 +63,9 @@ class UserTest < ActiveSupport::TestCase
 		users(:jason).friends << users(:mike)
 		users(:jason).friends.reload
 		assert users(:jason).friends.include?(users(:mike))
+	end
+
+	test "that calling to_param on a user returns the profile_name" do
+		assert_equal "jasonseifer", users(:jason).to_param
 	end
 end

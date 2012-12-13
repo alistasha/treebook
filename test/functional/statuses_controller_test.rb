@@ -13,7 +13,7 @@ class StatusesControllerTest < ActionController::TestCase
 
   test "should be redirected when not logged in" do
     get :new
-    assert_response :redirect
+    assert_response :redirect   # Which means it's going to redirect us to the log-in page, and we could even add in another assertion saying 'assert redirected to.'
     assert_redirected_to new_user_session_path
   end
 
