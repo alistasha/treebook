@@ -14,7 +14,7 @@ class UserTest < ActiveSupport::TestCase
 
 	test "a user should enter a last name" do
 		user = User.new
-		assert !user.saved
+		assert !user.save
 		assert !user.errors[:last_name].empty?
 	end
 

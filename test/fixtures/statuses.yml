@@ -1,13 +1,31 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
+  user_id: 1
   content: MyText
   user: jason
 
 two:
+  user_id: 2
   content: MyText
   user: jason
 
 three:
+  user_id: 3
   content: "Hi I'm Jim"
+  user: jim
+
+four:
+  user_id: 4
+  content: MyText
+  user: mike
+
+five:
+  user_id: 5
+  content: MyText
+  user: jason
+
+six:
+  user_id: 6
+  content: MyText
   user: jim

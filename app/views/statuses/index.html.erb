@@ -1,8 +1,9 @@
 <div class="page-header">
   <h1>All of the Statuses</h1>
+  <div style="display:inline">
+    <%= link_to "Post a New Status", new_status_path, class: "btn btn-success" %>
+  </div>
 </div>
-
-<%= link_to "Post a New Status", new_status_path, class: "btn btn-success" %>
 
 <% @statuses.each do |status| %>
 <div class="status">
@@ -10,9 +11,12 @@
     <div class="span1">
       <%= link_to image_tag(status.user.gravatar_url), profile_path(status.user) %>
     </div>
-    <div class="span7">
+    <div class="span9">
       <strong><%= status.user.full_name %></strong>
-      <p><%= status.content %></p>
+      <ul class="stars floatstars">
+          <li class="yellowstars" style="width: <%= status.avg_rating * 25 %>px !important;"></li>
+      </ul>
+      <p style="margin-top: 20px"><%= status.content %></p>      
       <div class="meta">
         <%= link_to time_ago_in_words(status.created_at) + " ago", status %>
         <span class="admin">

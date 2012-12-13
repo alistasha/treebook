@@ -1,15 +1,88 @@
-<p id="notice"><%= notice %></p>
+<section class="container" style="margin-bottom: 30px; padding: 30px 0px; border-bottom: solid 1px #CCC; border-top: solid 1px #CCC">
+	<ul class="stars floatstars">
+		<li class="yellowstars" style="width: <%= @status.avg_rating * 25 %>px !important;"></li>
+        <li class="text"><%= @status.avg_rating %> average from <%= pluralize(@status.count_ratings, "vote") %></li>
+    </ul>
+	<div class="span11">
+		<b>Name:</b>
+		<p><%= @status.user.full_name %></p>
+	</div>
 
-<p>
-  <b>Name:</b>
-  <%= @status.user.full_name %>
-</p>
+	<div class="span11">
+		<b>Content:</b>
+		<p><%= @status.content %></p>
+	</div>
+</section>
+<section id="rating">   
+    <% if user_signed_in? %>
+        <%= form_for [@status, @rating_currentuser] do |f| %>
+            <div id="ratingbox">
+                <ul id="ratingbuttons">
+                    <li><%= f.radio_button :stars, "5" %><span>Excellent</span></li>
+                    <li><%= f.radio_button :stars, "4" %><span>Very Good</span></li>
+                    <li><%= f.radio_button :stars, "3" %><span>Good</span></li>
+                    <li><%= f.radio_button :stars, "2" %><span>Average</span></li>
+                    <li><%= f.radio_button :stars, "1" %><span>Poor</span></li>                     
+                </ul>
+                <div class="center"><%= f.submit "Rate this status", :class => "awesome custom red" %></div>
+            </div>
+        <% end %>
+    <% else %>
+        <div id="ratingbox"><%= link_to "Sign in", login_path %> to rate this status</div>
+    <% end %>   
+</section>
 
-<p>
-  <b>Content:</b>
-  <%= @status.content %>
-</p>
+<% @comments.each do |comment| %>
+<section class="status">
+	<article class="row">      
+	<div class="span1">
+		<%= link_to image_tag(comment.user.gravatar_url), profile_path(comment.user) %>
+	</div>
+	<div class="span7">
+		<strong><%= comment.user.full_name %></strong>			
+		<p><%= comment.body %></p>
+		<% # display delete link only for comments written by this particular user %>
+		<div class="meta">
+			<%=time_ago_in_words(comment.created_at)%> ago
+			<% if user_signed_in? and comment.user_id == current_user.id %>
+				<span class="admin">
+				<%= link_to 'Delete', status_comment_path(@status, comment), :confirm => 'Are you sure your want to delete this comment??', :method => :delete %>
+				</span>
+			<% end %> 
+		</div>
+	</div>
+	</article>
+</section>
+<% end %>
 
-
-<%= link_to 'Edit', edit_status_path(@status) %> |
-<%= link_to 'Back', statuses_path %>
+<% # add a new comment %>   
+<article class="container" style="margin-top: 30px; padding-top: 20px; padding-bottom:10px; background-color: #f0f0f0">          
+    <% if user_signed_in? %>
+        <div class="span1">        	
+        </div>
+        <div class="span10">
+            <% if current_user.full_name == nil or current_user.full_name == '' %>
+                <div class="commenthead">
+                    Please complete your <%= link_to "profile", edit_user_registration_path %> before posting comments.
+                </div>
+            <% else %>                                
+                <div>
+                    <%= form_for [@status, current_user.comments.new] do |f| %>
+                        <%= f.text_area :body, :size => "100%x20", :class => "fullwidth" %>
+                        <div class="pull-right">
+                            <%= f.submit "Add Comment", :class => "btn btn-success" %>
+                        </div>
+                    <% end %>               
+                </div>          
+            <% end %>
+        </div>  
+    <% else %>
+        <div class="signin">
+            Please <%= link_to "sign in", login_path %> before posting a comment.
+        </div>
+    <% end %>
+</article>
+<div style="margin-top:10px">
+	<%= link_to 'Edit', edit_status_path(@status) %> |
+	<%= link_to 'Back', statuses_path %>
+</div>

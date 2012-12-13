@@ -9,4 +9,7 @@ module ApplicationHelper
 			""
 		end
 	end
+	def gravatar(email, size)
+		gravatar_id = Digest::MD5::hexdigest(email).downcase
+	end
 end

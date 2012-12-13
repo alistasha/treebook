@@ -16,6 +16,14 @@ class StatusesController < ApplicationController
   # GET /statuses/1.json
   def show
     @status = Status.find(params[:id])
+    @comments = @status.comments.all
+
+    if user_signed_in?
+      @rating_currentuser = @status.ratings.find_by_user_id(current_user.id)
+      unless @rating_currentuser 
+        @rating_currentuser = current_user.ratings.new
+      end
+    end
 
     respond_to do |format|
       format.html # show.html.erb

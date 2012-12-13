@@ -20,6 +20,8 @@ class User < ActiveRecord::Base
                             }
 
   has_many :statuses
+  has_many :comments, :dependent => :destroy
+  has_many :ratings, :dependent => :destroy
   # Since a user can have more than 1 friend, we're going to use a has_many association. 
   has_many :user_friendships
   has_many :friends, through: :user_friendships

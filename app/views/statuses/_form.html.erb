@@ -11,9 +11,14 @@
     </div>
   <% end %>
   
-  
-  <%= f.input :content %>
+  <div class="row">
+    <label style="position:relative; right:150px">
+      <%= f.input :content, :label => '', :input_html => {:maxlength => 500, :style => 'width: 900px'} %>
+    </label>
+  </div>
   <div class="form-actions">
-    <%= f.button :submit %>
+    <div class="pull-right">
+      <%= f.button :submit %>
+    </div>
   </div>
 <% end %>

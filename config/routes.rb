@@ -16,8 +16,11 @@ Treebook::Application.routes.draw do
   end
 
   resources :user_friendships
-
-  resources :statuses
+  
+  resources :statuses do
+    resources :comments, :only => [:create, :destroy]
+    resources :ratings, :only => [:create, :update, :destroy]   
+  end
   get 'feed', to: 'statuses#index', as: :feed
 
   # To the left of the pound is the controller(statuses) and the action(index)
