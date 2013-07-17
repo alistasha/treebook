@@ -53,7 +53,8 @@ class StatusesController < ApplicationController
   # POST /statuses
   # POST /statuses.json
   def create
-    @status = current_user.statuses.new(params[:status])  # we know that we already have to be signed-in in order to post
+    # we know that we already have to be signed-in in order to post
+    @status = current_user.statuses.new(params[:status])
 
     respond_to do |format|
       if @status.save
@@ -71,7 +72,10 @@ class StatusesController < ApplicationController
   def update
     @status = current_user.statuses.find(params[:id])
     
+    # Not only going to check if the status param has a key user_id,
+    # but also that there's a status param
     if params[:status] && params[:status].has_key?(:user_id)
+      # we delete the user_id param inside of the status params hash.
       params[:status].delete(:user_id)
     end
 

@@ -42,6 +42,7 @@ class StatusesControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to status_path(assigns(:status))
+    # We'll also assert that the statuses user_id is the same as Jason's user_id from our fixture.
     assert_equal assigns(:status).user_id, users(:jason).id
   end
 
