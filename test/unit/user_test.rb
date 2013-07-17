@@ -1,5 +1,7 @@
 require 'test_helper'
 
+# > ruby -Itest test/unit/user_test.rb
+
 class UserTest < ActiveSupport::TestCase
 	# Since a user can have more than 1 friend, we're going to use a has_many association. 
 	should have_many(:user_friendships)
@@ -46,6 +48,7 @@ class UserTest < ActiveSupport::TestCase
 	end
 
 	test "a user can have correctly formatted profile name" do
+		# Set up user object, and pass in the attributes
 		user = User.new(first_name: 'Jason', last_name: 'Seifer', email: 'jason2@teamtreehouse.com')
 		user.password = user.password_confirmation = 'asdfasdf'
 

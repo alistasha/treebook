@@ -1,4 +1,7 @@
 class StatusesController < ApplicationController
+  # Before filters will run before anything else in the controller.
+  # Devise will create some helpers to use inside your controllers and views
+  # To setup a controller with user authentication, just add this before_filter:
   before_filter :authenticate_user!, only: [:new, :create, :edit, :update]
 
   # GET /statuses
@@ -50,7 +53,7 @@ class StatusesController < ApplicationController
   # POST /statuses
   # POST /statuses.json
   def create
-    @status = current_user.statuses.new(params[:status])
+    @status = current_user.statuses.new(params[:status])  # we know that we already have to be signed-in in order to post
 
     respond_to do |format|
       if @status.save

@@ -34,11 +34,22 @@ class User < ActiveRecord::Base
     profile_name
   end
 
+  # The URL for our Gravatar Avatar
   def gravatar_url
+    # Creating a stripped email equals email.strip.
+    # It takes the string which is email, and the strip method removes any spaces before or after the text
     stripped_email = email.strip
+    # We can do our downcased email equals our stripeed email.downcase
+    # That will make everything lowercased.
     downcased_email = stripped_email.downcase
+    # Then all we need to do is create our hash.
+    # So our hash is going to be donw with the MD5 algorithm, 
+    # and the way we access that is through the Digest::MD5.hexdigest(downcased_email)
     hash = Digest::MD5.hexdigest(downcased_email)
 
+    # All we need to do is return the Gravatar URL which is at http://gravatar.com/avatar/hash
+    # In Ruby this will replace this entire sequence here with whatever the value of hash is.
+    # Because it's the last expression in our method it will return it as the value.
     "http://gravatar.com/avatar/#{hash}"
   end
 end

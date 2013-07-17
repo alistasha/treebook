@@ -35,5 +35,9 @@ Treebook::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
+  # Ensure you have defined default url opstions in your environments files.
+  # Here is an example of defualt_rul_options appropriate for a development environmnet
+  # in config/environmnets/development.rb:
+  # In production, :host should be set to the actual host of your application.
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 end

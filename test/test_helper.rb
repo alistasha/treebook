@@ -12,6 +12,8 @@ class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...
 end
 
+# Devise includes some tests helpers for functional specs.  
+# In other to use them, you need to include Devise in your funcitonal tests by adding the following to the bottom of your test/test_helper.rb file:
 class ActionController::TestCase
   include Devise::TestHelpers
 end

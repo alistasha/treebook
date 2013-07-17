@@ -12,10 +12,12 @@ group :test do
 	gem 'shoulda'
 end
 
+# We only want to use sqlite3 now in our development and our test environment
 group :development, :test do
 	gem 'sqlite3'
 end
 
+# In production we'll let Heroku deal with the database
 group :production do
 	gem 'pg'
 end

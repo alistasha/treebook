@@ -1,6 +1,11 @@
 require 'test_helper'
 
+# https://github.com/thoughtbot/shoulda-context 참조
+
 class UserFriendshipsControllerTest < ActionController::TestCase
+  # when I'm going to do a new friendship and I'm not logged in,
+  # I want to be redirected to the login page
+  # which is going to tell the application that i need to log in first.
   context "#new" do
   	context "when not logged in" do
   	  should "redirect to the login page" do
@@ -9,27 +14,38 @@ class UserFriendshipsControllerTest < ActionController::TestCase
   	  end	
   	end
 
+    # when somebody is logged in.
   	context "when logged in" do
+      # we can put some behavior that's going to occur
+      # before each of our tests in a stup block
   	  setup do
   	  	sign_in users(:jason)
   	  end
 
+      # let's just make sure that I successfully get the new page
   	  should "get new and return success" do
   	  	get :new
   	  	assert_response :success
   	  end
 
+      # We want to make sure that somebody passes in a friend ID
+      # when they go to create a new user friendship.
+
+      # what we'll do is we'll set error messages inside of our flash hash
+      # if somebody doesn't send in a friend ID.
   	  should "should set a flash error if the friend_id params is missing" do
-  	  	get :new, {}
+  	  	get :new, {}  # sending no params
   	  	assert_equal "Friend required", flash[:error]
   	  end
 
   	  should "display the friend's name" do
+        # get the new page only I'm sending in the friend ID
+        # of an actual user in the system.
   	  	get :new, friend_id: users(:jim)
   	  	assert_match /#{users(:jim).full_name}/, response.body
   	  end
 
-  	  should "assign a new user friendship" do
+  	  should "assign a new user friendship" do        
   	  	get :new, friend_id: users(:jim)
   	  	assert assigns(:user_friendship)
   	  end
